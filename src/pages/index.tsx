@@ -6,13 +6,20 @@ import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const BASE_URL = "http://localhost:3000/api";
-
 export default function Home() {
   const router = useRouter();
+  const { asPath } = useRouter();
+
   const [idsDasQuestoes, setIdsDasQuestoes] = useState<number[]>([]);
   const [questao, setQuestao] = useState<QuestaoModel>();
   const [respostasCertas, setRespostasCertas] = useState<number>(0);
+
+  const origin =
+    typeof window !== "undefined" && window.location.origin
+      ? window.location.origin
+      : "";
+
+  const BASE_URL = `${origin}/api`;
 
   async function carregarIdsDasQuestoes() {
     const resp = await fetch(`${BASE_URL}/questionario`);
